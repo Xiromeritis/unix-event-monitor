@@ -20,7 +20,8 @@ for event monitoring. You are invited to implement step-by-step a mini-system th
 
 ---
 
-## I.  Environment Preparation & Basic Commands
+## I.  Environment Preparation & Basic Commands (0.5 points)
+
 Create a directory structure for the logging system:
 ```
 monitor/
@@ -28,74 +29,80 @@ monitor/
  processed/
  reports 
 ```
-1. Create the structure with one command.
-2. In the monitor/raw/ directory, create three (3) log files:
+1. Create the structure with one command
+2. In the `monitor/raw/` directory, create three (3) `.log` files:
 - `system.log`
 - `network.log`
 - `security.log`
 3. Add indicative lines to each one (with `echo >>`), e.g. warnings, errors,
-timestamps etc., containing:
+   timestamps etc., containing:
 - Lines starting with a date (pattern: YYYY-MM-DD)
 - Lines containing the words ERROR, FAILED, CRITICAL
 - Lines containing an IPv4 address
 4. Display a detailed list of the files and count how many lines in total
-there are in the three (3) logs.
+   there are in the three (3) logs
 
 ---
 
-## II. Filtering logs with Regular Expressions
+## II. Filtering logs with Regular Expressions (0.5 points)
+
 We want to identify events that require attention.
+
 1. Using `grep` with regex, locate in all logs:
-- Lines that start with a date (pattern: YYYY-MM-DD)
+- Lines that start with a date (pattern: `YYYY-MM-DD`)
 - Lines that contain either the words ERROR, FAILED, CRITICAL
 - Lines that contain an IPv4 address
 2. The result should be saved in the file: `monitor/processed/alerts.raw`
 3. Remove duplicate lines and sort them, creating the file:
-`monitor/processed/alerts.sorted`
+   `monitor/processed/alerts.sorted`
 
 ---
 
-## III. Combining Pipes & Redirection to create a report
+## III. Combining Pipes & Redirection to create a report (0.5 points)
+
 Using only one pipeline command:
 1. Extract from the file `monitor/processed/alerts.sorted`
 - total number of alerts
 - total number of lines containing the word ERROR
-- total number of lines that concern a specific IP range (e.g. starts with 192.168.*)
+- total number of lines that concern a specific IP range (e.g. starts with `192.168.*`)
 2. The command should produce a file: `monitor/reports/daily_summary.txt` with content like:
-Total Alerts: X, Errors: Y, Local Network Events: Z
+   Total Alerts: X, Errors: Y, Local Network Events: Z
 
 ---
 
-## IV. Process Management
+## IV. Process Management (0.4 points)
 You will need to monitor processes related to your system.
+
 1. Run a command that "runs in the background" and periodically writes
-timestamps to a file `monitor/raw/timestamps.log`
+   timestamps to a file `monitor/raw/timestamps.log`
 2. Use `ps` and `grep` to find the process ID (PID)
-3. Change the priority of the process (nice or renice)
+3. Change the priority of the process (`nice` or `renice`)
 4. Terminate it first with `-TERM` and, if necessary, with `-KILL`
-5. Record the PIDs and what happened.
+5. Record the `PID`s and what happened
 
 ---
 
-## V. Implementing a C program for analyzing logs
+## V. Implementing a C program for analyzing logs (0.6 points)
+
 You will need to write a C program titled: `analyze.c` . The program:
-1. Takes as an argument a log file name.
-2. Tries to open it with `open()` .
-3. If it fails → uses `errno` , `perror()` to display an error message.
+1. Takes as an argument a `.log` file name
+2. Tries to open it with `open()`
+3. If it fails → uses `errno` , `perror()` to display an error message
 4. If it opens, it reads it line by line and counts:
 - total number of lines
 - number of lines containing the word ERROR
 - number of lines containing a number
 5. Returns exit code:
-- 0 -> success
-- 1 -> error opening
-- 2 -> empty file
+- `0` -> success
+- `1` -> error opening
+- `2` -> empty file
 
 The executable will be called: `analyze_log`
 
 ---
 
-## VI. Shell Script that automates the entire system
+## VI. Shell Script that automates the entire system (0.7 points)
+
 You will need to write the script titled: run_monitor.sh. The script must:
 1. Pass a logs' directory as an argument (e.g. `monitor/raw/`)
 2. Check that an argument was passed (positional parameters)
@@ -104,21 +111,23 @@ You will need to write the script titled: run_monitor.sh. The script must:
 5. Call the `analyze_log` program for each file in the directory
 6. Collect all the results in a new file: `monitor/reports/full_report.txt`
 7. Use:
-- for loops
-- case (for categorization, e.g. system/network/security log)
-- while loop if you want iterative execution
-- IFS for safe line splitting
+- `for` loops
+- `case` (for categorization, e.g. system/network/security log)
+- `whil`e loop if you want iterative execution
+- `IFS` for safe line splitting
 
 ---
 
-## VII. Threads for parallel log analysis
+## VII. Threads for parallel log analysis (0.8 points)
+
 You should speed up the system with threads via the program: `parallel_analyze.c`
+
 1. The program passes more than one log file as arguments
 2. It creates a thread for each file, where each thread:
 - opens the file
 - counts number of lines & errors (as in `analyze.c`)
 - returns the results to `main()` (via struct)
-3. `main()` does `pthread_join()` for all threads.
+3. `main()` does `pthread_join()` for all threads
 4. It prints a summary report in the format:
 ```
 File: X.log | Lines: L | Errors: E
@@ -126,3 +135,34 @@ File: X.log | Lines: L | Errors: E
           TOTAL LINES: ...
           TOTAL ERRORS: ...
 ```
+
+---
+
+## Caution
+
+- Do not use a common variable without protection
+- A separate struct must be given to each thread
+
+---
+
+## Submission & Examination Instructions
+
+- The assignment is <u>**individual**</u> and is graded with <u>**4 points**</u>
+- The assignment will be <u>**submitted**</u> via [**eClass**] (https://eclass.hua.gr/), on a date to be announced in the future, in the
+  corresponding tab (**Assignments → Lab Assignment**), in the form of a compressed
+  file. The compressed file folder should contain:
+  - All **project answers** (divided by PART) together with
+    documentation regarding the commands, your thought process, and how
+    solving each question, accompanied by relevant screenshots from the
+    execution of the commands from your terminal
+  - The script `run_monitor.sh`
+  - The C programs: `analyze.c` and `parallel_analyze.c`
+  - A small `README` file with execution instructions
+- The executable files should be run on a Linux operating system
+- The instructors will decide who will be called for an oral exam, and they will be
+  notified via [**eClass**](https://eclass.hua.gr/)/email. The selection criteria will be: (a) Undocumented
+  work, (b) Incomplete report, or (c) No comments/messages
+- In case of identical code (copying), the assignment will be
+  automatically graded as zero
+
+Translated with DeepL.com (free version)
