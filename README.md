@@ -1,6 +1,7 @@
 # UNIX-based Event Monitoring Infrastructure
 
-![Build Status](https://github.com/Xiromeritis/UNIX-based-Event-Monitoring-Infrastructure/actions/workflows/c-build.yml/badge.svg) ![License](https://img.shields.io/badge/License-MIT-green)
+![Build Status](https://img.shields.io/github/actions/workflow/status/Xiromeritis/UNIX-based-Event-Monitoring-Infrastructure/c-build.yml?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 **Operating Systems University Semester Lab Work**
 
@@ -274,3 +275,10 @@ File: monitor/raw/system.log         | Lines:   5 | Errors:   0
 
 ## License
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
+---
+
+> **Final Grade:**
+> 
+
+> **<sup>4</sup> / <sub>4</sub>**
