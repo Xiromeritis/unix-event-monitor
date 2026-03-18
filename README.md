@@ -1,7 +1,7 @@
 # UNIX-based Event Monitoring Infrastructure
 
 ![Build Status](https://img.shields.io/github/actions/workflow/status/Xiromeritis/UNIX-based-Event-Monitoring-Infrastructure/c-build.yml?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-darkred?style=for-the-badge)
 
 **Operating Systems University Semester Lab Work**
 
